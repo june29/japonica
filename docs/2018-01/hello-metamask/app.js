@@ -1,3 +1,25 @@
+function signMetaMask() {
+  var text = 'Hello, MetaMask!';
+  var msg = web3.toHex(text);
+  var from = web3.eth.accounts[0];
+  var params = [msg, from];
+  var method = 'personal_sign';
+
+  web3.currentProvider.sendAsync({ method: method, params: params, from: from }, function(error, result) {
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    if (result.error) {
+      console.error(result.error)
+      return;
+    }
+
+    console.log(result.result);
+  })
+}
+
 $(function() {
   if (typeof web3 === 'undefined') {
     console.log('No web3? You should consider trying MetaMask!');
@@ -36,5 +58,8 @@ $(function() {
 
   if (typeof web3.eth.accounts[0] === 'undefined') {
     $('.account').text('Your MetaMask account is locked. Please unlock and reload this page.');
+    return;
   }
+
+  $('.sign-button').text('Sign').css({ cursor: 'pointer', padding: '5px 10px', border: '1px solid #999' }).on('click', signMetaMask);
 });
