@@ -6,10 +6,10 @@ $(function() {
 
   window.web3 = new Web3(web3.currentProvider);
 
-  web3.version.getNetwork(function(err, netId) {
+  web3.version.getNetwork(function(error, networkId) {
     var networkName;
 
-    switch (netId) {
+    switch (networkId) {
       case '1':
         networkName = 'Mainnet';
         break;
@@ -35,6 +35,6 @@ $(function() {
   });
 
   if (typeof web3.eth.accounts[0] === 'undefined') {
-    $('.account').text('Your MetaMask account is locked. Please unlock and reload this page.')
+    $('.account').text('Your MetaMask account is locked. Please unlock and reload this page.');
   }
 });
