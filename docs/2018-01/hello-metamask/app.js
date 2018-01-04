@@ -1,30 +1,36 @@
 $(function() {
-  if (typeof web3 !== 'undefined') {
-    window.web3 = new Web3(web3.currentProvider);
-  } else {
-    console.log('No web3? You should consider trying MetaMask!')
-    window.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+  if (typeof web3 === 'undefined') {
+    console.log('No web3? You should consider trying MetaMask!');
+    return;
   }
 
+  window.web3 = new Web3(web3.currentProvider);
+
   web3.version.getNetwork(function(err, netId) {
+    var networkName;
+
     switch (netId) {
-      case "1":
-        console.log('This is mainnet')
-        break
-      case "2":
-        console.log('This is the deprecated Morden test network.')
-        break
-      case "3":
-        console.log('This is the ropsten test network.')
-        break
-      case "4":
-        console.log('This is the rinkeby test network.')
-        break
-      case "42":
-        console.log('This is the kovan test network.')
-        break
+      case '1':
+        networkName = 'Mainnet';
+        break;
+      case '2':
+        networkName = 'Morden';
+        break;
+      case '3':
+        networkName = 'Ropsten';
+        break;
+      case '4':
+        networkName = 'Rinkeby';
+        break;
+      case '42':
+        networkName = 'Kovan';
+        break;
       default:
-        console.log('This is an unknown network.')
+        console.log('This is an unknown network.');
+    }
+
+    if (networkName !== 'undefined') {
+      $('.network').text('This is ' + networkName + ' network.');
     }
   });
 });
