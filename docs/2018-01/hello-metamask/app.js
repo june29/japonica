@@ -33,4 +33,8 @@ $(function() {
       $('.network').text('This is ' + networkName + ' network.');
     }
   });
+
+  if (typeof web3.eth.accounts[0] === 'undefined') {
+    $('.account').text('Your MetaMask account is locked. Please unlock and reload this page.')
+  }
 });
