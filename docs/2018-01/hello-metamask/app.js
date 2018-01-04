@@ -17,6 +17,12 @@ $(function() {
       case "3":
         console.log('This is the ropsten test network.')
         break
+      case "4":
+        console.log('This is the rinkeby test network.')
+        break
+      case "42":
+        console.log('This is the kovan test network.')
+        break
       default:
         console.log('This is an unknown network.')
     }
