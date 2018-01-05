@@ -1,3 +1,17 @@
+function handleResult(error, result) {
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  if (result.error) {
+    console.error(result.error)
+    return;
+  }
+
+  console.log(result.result);
+}
+
 function signMetaMask() {
   var text = 'Hello, MetaMask!';
   var msg = web3.toHex(text);
@@ -5,19 +19,17 @@ function signMetaMask() {
   var params = [msg, from];
   var method = 'personal_sign';
 
-  web3.currentProvider.sendAsync({ method: method, params: params, from: from }, function(error, result) {
-    if (error) {
-      console.error(error);
-      return;
-    }
+  web3.currentProvider.sendAsync({ method: method, params: params, from: from }, handleResult);
+}
 
-    if (result.error) {
-      console.error(result.error)
-      return;
-    }
+function sendETH() {
+  var to = '0xc66d779B340E333bA696B2b3687FB4Bca1Eb7D0b';
+  var from = web3.eth.accounts[0];
+  var value = web3.toWei(0.001, 'ether');
+  var params = [{ to: to, from: from, value: value }];
+  var method = 'eth_sendTransaction';
 
-    console.log(result.result);
-  })
+  web3.currentProvider.sendAsync({ method: method, params: params, from: from }, handleResult);
 }
 
 $(function() {
@@ -61,5 +73,8 @@ $(function() {
     return;
   }
 
-  $('.sign-button').text('Sign').css({ cursor: 'pointer', padding: '5px 10px', border: '1px solid #999' }).on('click', signMetaMask);
+  $('.button').css({ cursor: 'pointer', padding: '5px 10px', border: '1px solid #999' });
+
+  $('.sign-button').text('Sign').on('click', signMetaMask);
+  $('.send-button').text('Send').on('click', sendETH);
 });
